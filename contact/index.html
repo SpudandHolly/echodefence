@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
@@ -36,8 +37,16 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{background:var(--void);color:var(--white);font-family:var(--font-body);font-weight:300;line-height:1.7;overflow-x:hidden;}
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.4;}
+body{background:var(--void);color:var(--white);font-family:var(--font-body);font-weight:300;line-height:1.7;overflow-x:hidden;position:relative;}
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;
+  opacity:0.4;
+  z-index:-1;
+}
 h1,h2,h3,h4{font-family:var(--font-display);font-weight:700;letter-spacing:.02em;}
 .mono{font-family:var(--font-mono);font-size:.75em;letter-spacing:.08em;}
 .label{font-family:var(--font-condensed);font-weight:600;font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:.5rem;}
@@ -65,6 +74,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 /* BUTTONS */
 .btn-primary{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-condensed);font-weight:600;font-size:.85rem;letter-spacing:.15em;text-transform:uppercase;color:var(--void);background:var(--teal);padding:14px 32px;text-decoration:none;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);transition:all .2s;border:none;cursor:pointer;}
 .btn-primary:hover{background:#00FFDA;transform:translateY(-2px);box-shadow:0 8px 30px var(--teal-glow);}
+.btn-primary:active{transform:translateY(1px);box-shadow:0 2px 10px var(--teal-glow);}
+.btn-primary:focus-visible{outline:2px solid var(--teal);outline-offset:3px;}
 .btn-primary:disabled{opacity:.7;cursor:wait;transform:none;box-shadow:none;}
 .btn-primary.amber{background:var(--amber);}
 .btn-primary.amber:hover{background:#FFB800;}
@@ -335,12 +346,19 @@ const errorBox = document.getElementById('formError');
 const errorText = document.getElementById('formErrorText');
 const submitBtn = document.getElementById('submitBtn');
 
+console.log('form found:', !!form);
+console.log('submit button found:', !!submitBtn);
+
 if (form) {
   form.addEventListener('submit', async (e) => {
+    console.log('submit handler fired');
     e.preventDefault();
+
+    console.log('form valid:', form.checkValidity());
 
     if (!form.checkValidity()) {
       form.reportValidity();
+      console.log('browser validation blocked submit');
       return;
     }
 
@@ -356,7 +374,7 @@ if (form) {
     }
 
     try {
-      console.log('Posting to:', form.action);
+      console.log('posting to:', form.action);
 
       const r = await fetch(form.action, {
         method: 'POST',
@@ -366,9 +384,10 @@ if (form) {
         }
       });
 
-      console.log('Formspree status:', r.status);
+      console.log('response status:', r.status);
 
       if (r.ok) {
+        console.log('submission succeeded');
         form.style.display = 'none';
         success.style.display = 'block';
       } else {
@@ -421,3 +440,4 @@ document.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'))
 </script>
 </body>
 </html>
+```
