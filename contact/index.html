@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Barlow:ital,wght@0,300;0,400;0,500;1,300&family=Barlow+Condensed:wght@200;300;400;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "ContactPage", "name": "Request a Briefing \u2014 EchoDepth Defence", "url": "https://echodefence.co.uk/contact/", "description": "Request a structured technical briefing for defence procurement, security leadership, or intelligence teams. NDA available. Air-gapped demo environment on request."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ContactPage","name":"Request a Briefing — EchoDepth Defence","url":"https://echodefence.co.uk/contact/","description":"Request a structured technical briefing for defence procurement, security leadership, or intelligence teams. NDA available. Air-gapped demo environment on request."}</script>
 
 <style>
 :root {
@@ -65,6 +65,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 /* BUTTONS */
 .btn-primary{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-condensed);font-weight:600;font-size:.85rem;letter-spacing:.15em;text-transform:uppercase;color:var(--void);background:var(--teal);padding:14px 32px;text-decoration:none;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);transition:all .2s;border:none;cursor:pointer;}
 .btn-primary:hover{background:#00FFDA;transform:translateY(-2px);box-shadow:0 8px 30px var(--teal-glow);}
+.btn-primary:disabled{opacity:.7;cursor:wait;transform:none;box-shadow:none;}
 .btn-primary.amber{background:var(--amber);}
 .btn-primary.amber:hover{background:#FFB800;}
 .btn-primary.red{background:var(--red);}
@@ -191,7 +192,7 @@ footer{background:var(--deep);border-top:1px solid var(--border);padding:4rem 5r
   <div class="section-inner">
     <div class="contact-grid" style="display:grid;grid-template-columns:1.4fr 1fr;gap:6rem;align-items:start;">
       <div class="fade-up">
-        <form id="contactForm" action="https://formspree.io/f/xlgppldp" method="POST" style="display:flex;flex-direction:column;gap:1.2rem;">
+        <form id="contactForm" action="https://formspree.io/f/xlgppldp" method="POST" novalidate style="display:flex;flex-direction:column;gap:1.2rem;">
           <input type="hidden" name="_subject" value="EchoDepth Defence briefing request">
 
           <div id="formError" style="display:none;background:rgba(224,59,59,.08);border:1px solid var(--red);border-left:3px solid var(--red);padding:1rem 1.2rem;">
@@ -338,18 +339,25 @@ if (form) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    if (errorBox) errorBox.style.display = 'none';
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    if (errorBox) {
+      errorBox.style.display = 'none';
+    }
 
     const data = new FormData(form);
 
     if (submitBtn) {
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending...';
-      submitBtn.style.opacity = '0.7';
-      submitBtn.style.cursor = 'wait';
     }
 
     try {
+      console.log('Posting to:', form.action);
+
       const r = await fetch(form.action, {
         method: 'POST',
         body: data,
@@ -357,6 +365,8 @@ if (form) {
           'Accept': 'application/json'
         }
       });
+
+      console.log('Formspree status:', r.status);
 
       if (r.ok) {
         form.style.display = 'none';
@@ -366,10 +376,12 @@ if (form) {
         const message = errorData && errorData.errors && errorData.errors.length
           ? errorData.errors.map(err => err.message).join(', ')
           : 'Submission failed. Please check your entries and Formspree setup.';
+
         if (errorBox && errorText) {
           errorText.textContent = message;
           errorBox.style.display = 'block';
         }
+
         console.error('Formspree error:', errorData);
       }
     } catch (err) {
@@ -377,13 +389,12 @@ if (form) {
         errorText.textContent = 'Network error. Please try again.';
         errorBox.style.display = 'block';
       }
+
       console.error('Network error:', err);
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Send Secure Enquiry';
-        submitBtn.style.opacity = '1';
-        submitBtn.style.cursor = 'pointer';
       }
     }
   });
@@ -391,6 +402,7 @@ if (form) {
 
 const ham = document.getElementById('hamburger');
 const nav = document.getElementById('navLinks');
+
 if (ham && nav) {
   ham.addEventListener('click', () => {
     const open = nav.classList.toggle('open');
