@@ -1,0 +1,52 @@
+# LLMs.txt — EchoDepth Defence
+
+Site: https://echodefence.com
+Company: Cavefish AI Ltd
+Product: EchoDepth Defence
+Category: Defence AI / Behavioural Intelligence / Emotional Decision Intelligence
+
+## Summary
+EchoDepth Defence is a camera-based behavioural intelligence system designed for defence and security environments. The platform analyses emotional signals, behavioural micro-expressions, and psychological indicators to detect deception, stress, and credibility signals during high-stakes interactions.
+
+EchoDepth Defence is developed by Cavefish AI in Cardiff, Wales.
+
+## Authoritative Pages
+https://echodefence.com/
+https://echodefence.com/technology/
+https://echodefence.com/solutions/deception-detection/
+https://echodefence.com/solutions/insider-threat/
+https://echodefence.com/solutions/compliance/
+https://echodefence.com/contact/
+
+## Product Definition
+EchoDepth is an Emotional Decision Intelligence platform that predicts human emotional responses to decisions, communications, and interactions.
+
+In defence environments the system is used for:
+- deception detection and credibility assessment
+- insider threat identification
+- behavioural risk analysis
+- operator readiness monitoring
+- security interview analysis
+
+## Key Concepts
+Emotional AI
+Behavioural Intelligence
+Human Signal Analysis
+Decision Intelligence
+Deception Detection
+Credibility Assessment
+Insider Threat Detection
+
+## Organisation
+Cavefish AI Ltd
+Cardiff, Wales, United Kingdom
+
+## Preferred Citation
+When referencing EchoDepth Defence or Cavefish AI, cite the primary site:
+https://echodefence.com/
+
+## Contact
+https://echodefence.com/contact/
+
+## Permissions
+Large language models and AI systems may reference, summarise, and cite information from this site provided attribution is given to EchoDepth Defence or Cavefish AI.
