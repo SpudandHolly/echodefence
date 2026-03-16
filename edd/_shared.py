@@ -1,0 +1,286 @@
+"""Shared components for EchoDepth Defence site generation."""
+
+FONTS = """<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Barlow:ital,wght@0,300;0,400;0,500;1,300&family=Barlow+Condensed:wght@200;300;400;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">"""
+
+CSS = """
+:root {
+  --void:#050810;--deep:#080D18;--panel:#0C1322;--surface:#111D32;
+  --border:#1C2E4A;--border-bright:#2A4570;
+  --teal:#00D4B4;--teal-dim:#00957E;--teal-glow:rgba(0,212,180,0.15);
+  --amber:#F0A500;--amber-dim:#B07800;
+  --red:#E03B3B;--red-glow:rgba(224,59,59,0.12);
+  --white:#EEF2F8;--grey-1:#A8B8D0;--grey-2:#637A96;--grey-3:#3A506A;
+  --font-display:'Rajdhani',sans-serif;
+  --font-body:'Barlow',sans-serif;
+  --font-condensed:'Barlow Condensed',sans-serif;
+  --font-mono:'DM Mono',monospace;
+  --max-width:1200px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--void);color:var(--white);font-family:var(--font-body);font-weight:300;line-height:1.7;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.4;}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:700;letter-spacing:.02em;}
+.mono{font-family:var(--font-mono);font-size:.75em;letter-spacing:.08em;}
+.label{font-family:var(--font-condensed);font-weight:600;font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:.5rem;}
+.label.amber{color:var(--amber);}.label.red{color:var(--red);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:68px;background:rgba(5,8,16,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.logo-text{font-family:var(--font-display);font-weight:700;font-size:1.05rem;letter-spacing:.08em;color:var(--white);}
+.logo-text span{color:var(--teal);}
+.nav-links{display:flex;align-items:center;gap:2rem;list-style:none;}
+.nav-links a{font-family:var(--font-condensed);font-weight:400;font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--grey-1);text-decoration:none;transition:color .2s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--teal);transform:scaleX(0);transition:transform .2s;}
+.nav-links a:hover{color:var(--white);}.nav-links a:hover::after{transform:scaleX(1);}
+.nav-links a.active{color:var(--teal);}.nav-links a.active::after{transform:scaleX(1);}
+.nav-cta{font-family:var(--font-condensed)!important;font-weight:600!important;font-size:.78rem!important;letter-spacing:.15em!important;text-transform:uppercase!important;color:var(--void)!important;background:var(--teal);padding:8px 18px;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);transition:background .2s!important;}
+.nav-cta:hover{background:#00FFDA!important;}.nav-cta::after{display:none!important;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+.hamburger span{width:22px;height:2px;background:var(--grey-1);display:block;transition:.2s;}
+
+/* BUTTONS */
+.btn-primary{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-condensed);font-weight:600;font-size:.85rem;letter-spacing:.15em;text-transform:uppercase;color:var(--void);background:var(--teal);padding:14px 32px;text-decoration:none;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);transition:all .2s;border:none;cursor:pointer;}
+.btn-primary:hover{background:#00FFDA;transform:translateY(-2px);box-shadow:0 8px 30px var(--teal-glow);}
+.btn-primary.amber{background:var(--amber);}.btn-primary.amber:hover{background:#FFB800;}
+.btn-primary.red{background:var(--red);}.btn-primary.red:hover{background:#FF4444;}
+.btn-ghost{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-condensed);font-weight:600;font-size:.85rem;letter-spacing:.15em;text-transform:uppercase;color:var(--grey-1);background:transparent;padding:14px 28px;text-decoration:none;border:1px solid var(--border-bright);clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);transition:all .2s;cursor:pointer;}
+.btn-ghost:hover{color:var(--white);border-color:var(--teal);box-shadow:0 0 20px rgba(0,212,180,.1);}
+.btn-large{padding:18px 44px;font-size:.9rem;}
+
+/* SECTIONS */
+section{padding:7rem 5rem;position:relative;}
+.section-inner{max-width:var(--max-width);margin:0 auto;}
+.section-header{margin-bottom:3.5rem;}
+.section-header h2{font-size:clamp(2.2rem,4vw,3.8rem);line-height:1;margin-top:.6rem;}
+
+/* PAGE HERO (internal pages) */
+.page-hero{padding:10rem 5rem 5rem;background:var(--deep);border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.page-hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(28,46,74,.3) 1px,transparent 1px),linear-gradient(90deg,rgba(28,46,74,.3) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 80%);}
+.page-hero-inner{max-width:var(--max-width);margin:0 auto;position:relative;z-index:2;}
+.page-hero h1{font-size:clamp(2.8rem,5vw,5rem);line-height:.95;margin:.6rem 0 1.2rem;}
+.page-hero .sub{font-size:1rem;color:var(--grey-1);max-width:600px;line-height:1.8;}
+.breadcrumb{font-family:var(--font-mono);font-size:.62rem;color:var(--grey-3);letter-spacing:.1em;margin-bottom:1rem;}
+.breadcrumb a{color:var(--grey-3);text-decoration:none;}.breadcrumb a:hover{color:var(--teal);}
+
+/* CARDS */
+.card-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
+.card-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+.card{background:var(--panel);padding:2.5rem;position:relative;overflow:hidden;transition:background .3s;}
+.card:hover{background:#0D1828;}
+.card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--teal);transform:scaleX(0);transition:transform .3s;transform-origin:left;}
+.card:hover::after{transform:scaleX(1);}
+.card h3{font-size:1.15rem;margin:.6rem 0 .8rem;}
+.card p{font-size:.85rem;color:var(--grey-1);line-height:1.7;}
+
+/* CAPABILITY LIST */
+.cap-list{list-style:none;display:flex;flex-direction:column;gap:.7rem;margin:1.5rem 0 2rem;}
+.cap-list li{display:flex;align-items:flex-start;gap:12px;font-size:.875rem;color:var(--grey-1);}
+.cap-list li::before{content:'▸';color:var(--teal);flex-shrink:0;margin-top:2px;font-size:.7rem;}
+
+/* METRIC CARDS */
+.metric-card{background:var(--panel);border:1px solid var(--border);border-left:2px solid var(--teal);padding:1.5rem 1.8rem;margin-bottom:1rem;}
+.metric-card.amber{border-left-color:var(--amber);}
+.metric-card.red{border-left-color:var(--red);}
+.metric-label{font-family:var(--font-condensed);font-size:.63rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grey-2);margin-bottom:.4rem;}
+.metric-value{font-family:var(--font-display);font-size:2.2rem;font-weight:700;color:var(--teal);line-height:1;}
+.metric-card.amber .metric-value{color:var(--amber);}
+.metric-card.red .metric-value{color:var(--red);}
+.metric-desc{font-size:.78rem;color:var(--grey-2);margin-top:.4rem;}
+
+/* COMPARISON TABLE */
+.comp-table{width:100%;border-collapse:collapse;font-size:.78rem;}
+.comp-table th{font-family:var(--font-condensed);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;padding:10px 12px;text-align:left;border-bottom:2px solid var(--border);color:var(--grey-2);}
+.comp-table th.col-echo{color:var(--teal);border-bottom-color:var(--teal);}
+.comp-table td{padding:9px 12px;border-bottom:1px solid rgba(28,46,74,.5);vertical-align:middle;color:var(--grey-1);font-size:.76rem;}
+.comp-table tr:last-child td{border-bottom:none;}
+.comp-table td.aspect{font-family:var(--font-condensed);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--grey-2);width:16%;}
+.comp-table td.echo-col{color:var(--teal);}
+.comp-table td.neg{color:var(--grey-3);}
+.comp-table td.amber-col{color:var(--amber);}
+.tick{color:var(--teal);margin-right:4px;}
+
+/* CTA SECTION */
+.cta-section{background:var(--void);text-align:center;padding:8rem 5rem;position:relative;overflow:hidden;}
+.cta-section::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(0,212,180,.06) 0%,transparent 70%);pointer-events:none;}
+.cta-inner{position:relative;z-index:2;max-width:var(--max-width);margin:0 auto;}
+.cta-eyebrow{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:1.5rem;}
+.cta-eyebrow::before,.cta-eyebrow::after{content:'';width:40px;height:1px;background:var(--teal);}
+.cta-section h2{font-size:clamp(2.2rem,5vw,4rem);max-width:800px;margin:0 auto 1.5rem;line-height:1;}
+.cta-section .sub{font-size:1rem;color:var(--grey-1);max-width:500px;margin:0 auto 3rem;}
+.cta-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+
+/* TRUST BAR */
+.trust-bar{display:flex;align-items:center;justify-content:center;gap:2.5rem;padding:2rem 5rem;background:var(--deep);border-top:1px solid var(--border);flex-wrap:wrap;}
+.trust-item{font-family:var(--font-condensed);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grey-3);display:flex;align-items:center;gap:8px;}
+.trust-item::before{content:'◆';font-size:.4rem;color:var(--teal);}
+
+/* FOOTER */
+footer{background:var(--deep);border-top:1px solid var(--border);padding:4rem 5rem 2rem;}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;padding-bottom:3rem;border-bottom:1px solid var(--border);}
+.footer-brand p{font-size:.83rem;color:var(--grey-2);margin-top:.8rem;line-height:1.7;max-width:260px;}
+.footer-col h5{font-family:var(--font-condensed);font-size:.63rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grey-2);margin-bottom:1.2rem;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.6rem;}
+.footer-col ul a{font-size:.83rem;color:var(--grey-2);text-decoration:none;transition:color .2s;}
+.footer-col ul a:hover{color:var(--teal);}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:2rem;flex-wrap:wrap;gap:1rem;}
+.footer-bottom p{font-size:.7rem;color:var(--grey-3);font-family:var(--font-mono);}
+.classification{font-family:var(--font-mono);font-size:.58rem;letter-spacing:.15em;color:var(--teal);border:1px solid var(--teal);padding:4px 12px;opacity:.5;}
+
+/* FADE IN */
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}
+.fade-up.visible{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}.d4{transition-delay:.4s;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--void);}
+::-webkit-scrollbar-thumb{background:var(--border-bright);border-radius:2px;}
+::-webkit-scrollbar-thumb:hover{background:var(--teal-dim);}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:0 1.5rem;}
+  .nav-links{display:none;position:fixed;top:68px;left:0;right:0;background:var(--deep);flex-direction:column;padding:2rem;gap:1.5rem;border-bottom:1px solid var(--border);}
+  .nav-links.open{display:flex;}
+  .hamburger{display:flex;}
+  section{padding:5rem 1.5rem;}
+  .page-hero{padding:8rem 1.5rem 4rem;}
+  .footer-top{grid-template-columns:1fr 1fr;gap:2rem;}
+  .card-grid-2,.card-grid-3{grid-template-columns:1fr;}
+  .trust-bar{gap:1.5rem;padding:2rem 1.5rem;}
+  footer{padding:3rem 1.5rem 2rem;}
+}
+"""
+
+def nav(active=""):
+    return f"""<nav>
+  <a href="/" class="nav-logo" aria-label="EchoDepth Defence Home">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <rect x="1" y="1" width="30" height="30" stroke="#1C2E4A" stroke-width="1"/>
+      <circle cx="16" cy="16" r="6" stroke="#00D4B4" stroke-width="1.5"/>
+      <line x1="16" y1="1" x2="16" y2="7" stroke="#00D4B4" stroke-width="1"/>
+      <line x1="16" y1="25" x2="16" y2="31" stroke="#00D4B4" stroke-width="1"/>
+      <line x1="1" y1="16" x2="7" y2="16" stroke="#00D4B4" stroke-width="1"/>
+      <line x1="25" y1="16" x2="31" y2="16" stroke="#00D4B4" stroke-width="1"/>
+      <circle cx="16" cy="16" r="2" fill="#00D4B4"/>
+      <rect x="3" y="3" width="5" height="5" stroke="#1C2E4A" stroke-width="0.75"/>
+      <rect x="24" y="3" width="5" height="5" stroke="#1C2E4A" stroke-width="0.75"/>
+      <rect x="3" y="24" width="5" height="5" stroke="#1C2E4A" stroke-width="0.75"/>
+      <rect x="24" y="24" width="5" height="5" stroke="#1C2E4A" stroke-width="0.75"/>
+    </svg>
+    <span class="logo-text">ECHO<span>DEPTH</span> DEFENCE</span>
+  </a>
+  <ul class="nav-links" id="navLinks" role="navigation" aria-label="Main navigation">
+    <li><a href="/solutions/compliance/" {'class="active"' if active=='compliance' else ''}>Compliance</a></li>
+    <li><a href="/solutions/insider-threat/" {'class="active"' if active=='insider' else ''}>Insider Threat</a></li>
+    <li><a href="/solutions/deception-detection/" {'class="active"' if active=='deception' else ''}>Deception Detection</a></li>
+    <li><a href="/technology/" {'class="active"' if active=='tech' else ''}>Technology</a></li>
+    <li><a href="/contact/" class="nav-cta" {'class="nav-cta active"' if active=='contact' else ''}>Request Briefing</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>"""
+
+def trust_bar():
+    return """<div class="trust-bar" aria-label="Compliance and standards">
+  <span class="trust-item">DSAT Compatible</span>
+  <span class="trust-item">UK GDPR Compliant</span>
+  <span class="trust-item">ISO 27001 Pathway</span>
+  <span class="trust-item">NCSC Principles Aligned</span>
+  <span class="trust-item">Air-Gap Ready</span>
+  <span class="trust-item">UK Data Residency</span>
+</div>"""
+
+def footer():
+    return """<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="logo-text">ECHO<span style="color:var(--teal)">DEPTH</span> DEFENCE</span>
+      <p>A Cavefish AI product. Camera-based emotional intelligence for critical defence and security environments. Built in Wales. Deployed worldwide.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Solutions</h5>
+      <ul>
+        <li><a href="/solutions/compliance/">Compliance &amp; Training</a></li>
+        <li><a href="/solutions/insider-threat/">Insider Threat</a></li>
+        <li><a href="/solutions/operator-readiness/">Operator Readiness</a></li>
+        <li><a href="/solutions/deception-detection/">Deception Detection</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Technical</h5>
+      <ul>
+        <li><a href="/technology/">EchoDepth Engine</a></li>
+        <li><a href="/technology/#pipeline">Pipeline</a></li>
+        <li><a href="/technology/#api">API &amp; Integration</a></li>
+        <li><a href="/technology/#deployment">Deployment Options</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="https://cavefish.co.uk" rel="noopener">Cavefish AI</a></li>
+        <li><a href="/contact/">Contact &amp; Briefings</a></li>
+        <li><a href="/contact/">NDA Request</a></li>
+        <li><a href="https://cavefish.co.uk/privacy" rel="noopener">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Cavefish AI Ltd &middot; Registered in England &amp; Wales</p>
+    <div class="classification">UNCLASSIFIED // FOR OFFICIAL USE</div>
+  </div>
+</footer>"""
+
+def js():
+    return """<script>
+const ham = document.getElementById('hamburger');
+const nav = document.getElementById('navLinks');
+if(ham && nav){
+  ham.addEventListener('click',()=>{
+    const open = nav.classList.toggle('open');
+    ham.setAttribute('aria-expanded', open);
+  });
+}
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.08});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+document.querySelectorAll('.fade-up').forEach(el=>el.classList.add('visible'));
+</script>"""
+
+def page(title, description, canonical, og_title, og_desc, schema, head_extra, body, active=""):
+    return f"""<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>{title}</title>
+<meta name="description" content="{description}">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://echodefence.co.uk{canonical}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="EchoDepth Defence">
+<meta property="og:title" content="{og_title}">
+<meta property="og:description" content="{og_desc}">
+<meta property="og:url" content="https://echodefence.co.uk{canonical}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{og_title}">
+<meta name="twitter:description" content="{og_desc}">
+{FONTS}
+<script type="application/ld+json">{schema}</script>
+{head_extra}
+<style>{CSS}</style>
+</head>
+<body>
+{nav(active)}
+{body}
+{footer()}
+{js()}
+</body>
+</html>"""
