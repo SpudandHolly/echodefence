@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://echodefence.co.uk/sitemap.xml
